@@ -35,6 +35,8 @@ class ImageController extends Controller
 
     public function edit($image)
     {
+        $this->authorize('update', $image);
+
         return view('image.edit', [
             'image' => $image,
         ]);
@@ -42,6 +44,8 @@ class ImageController extends Controller
 
     public function update(Image $image, ImageRequest $request)
     {
+        $this->authorize('update', $image);
+
         $image->update($request->getData());
 
         return to_route('images.index')->with('message', 'Image has been updated successfully');
@@ -50,6 +54,8 @@ class ImageController extends Controller
 
     public function destroy(Image $image)
     {
+        $this->authorize('delete', $image);
+
         $image->delete();
 
         return to_route('images.index')->with('message', 'Image has been deleted successfully');

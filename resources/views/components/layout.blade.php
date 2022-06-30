@@ -19,15 +19,38 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="/">
             <x-icon src="logo.svg" alt="" width="30" height="24"
-                    class="d-inline-block align-text-top color-light"/>
-                Larapics
+                    class="d-inline-block align-text-top color-light" />
+            Larapics
 
         </a>
-        <div class="d-flex">
-            <a class="btn btn-success" href="{{ route('images.create') }}">Upload</a>
-            {{--<a href='#' class="btn btn-outline-secondary me-2">Register</a>--}}
-            {{--<a href='#' class="btn btn-danger">Login</a>--}}
-        </div>
+        <ul class="navbar-nav ms-auto">
+            @guest
+                <li class="nav-item me-2">
+                    <a class="btn btn-danger" href="{{ route('login') }}">{{ __('Login') }}</a>
+                </li>
+                <li class="nav-item me-2">
+                    <a class="btn btn-outline-secondary" href="{{ route('register') }}">{{ __('Register') }}</a>
+                </li>
+            @else
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{ Auth::user()->name }}
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </div>
+                </li>
+            @endguest
+        </ul>
     </div>
 </nav>
 {{ $slot }}
